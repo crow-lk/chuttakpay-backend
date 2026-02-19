@@ -1,0 +1,62 @@
+name: Deploy Laravel Application to Production Server
+
+on:
+  push:
+    branches:
+      #Develop environment 2
+      - main
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+    # Step 1: Checkout the code from the repository
+    - name: Checkout Code
+      uses: actions/checkout@v3
+
+    # Step 2: Install PHP in the GitHub Actions runner
+    - name: Setup PHP
+      uses: shivammathur/setup-php@v2
+      with:
+        php-version: 8.4.3
+        extensions: mbstring, bcmath, intl, pdo_mysql
+        coverage: none
+
+    # Step 3: Install Composer dependencies
+    - name: Install Composer Dependencies
+      run: composer install --no-dev --optimize-autoloader
+
+    # Step 4: Install Node.js (if needed for frontend assets)
+    - name: Setup Node.js
+      uses: actions/setup-node@v3
+      with:
+        node-version: '22'
+
+    # Step 5: Install NPM dependencies and build assets
+    # - name: Install NPM Dependencies
+    #   run: npm install
+
+    # - name: Build Frontend Assets
+    #   run: npm run build
+
+    # Step 6: Install sshpass
+    - name: Install sshpass
+      run: sudo apt-get update && sudo apt-get install -y sshpass
+
+    # Step 7: Synchronize files to the production server using sshpass
+    - name: Synchronize Files To Server by SSH
+      run: |
+        sshpass -p "${{ secrets.SSH_PASSWORD }}" rsync -e "ssh -p 65002 -o StrictHostKeyChecking=no" --recursive ./ u763117446@147.93.78.59:/home/u763117446/domains/aaliyaa.crowdemo.com/public_html/
+
+    # Step 8: Run remote commands on the production server using sshpass
+    - name: Run Remote Commands
+      run: |
+        sshpass -p "${{ secrets.SSH_PASSWORD }}" ssh -p 65002 -o StrictHostKeyChecking=no u763117446@147.93.78.59 << EOF
+        cd /home/u763117446/domains/aaliyaa.crowdemo.com/public_html/
+        /opt/alt/php84/usr/bin/php /usr/local/bin/composer2 install --no-dev --optimize-autoloader
+        /opt/alt/php84/usr/bin/php artisan config:clear
+        /opt/alt/php84/usr/bin/php artisan cache:clear
+        /opt/alt/php84/usr/bin/php artisan migrate
+        /opt/alt/php84/usr/bin/php artisan optimize:clear
+        EOF

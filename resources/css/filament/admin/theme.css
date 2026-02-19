@@ -1,0 +1,206 @@
+@import "tailwindcss";
+@import "../../../../vendor/filament/filament/resources/css/theme.css";
+
+/* Receipt Print Styles */
+@media print {
+    body {
+        font-family: "Arial", sans-serif;
+        color: #000 !important;
+        background: white !important;
+    }
+
+    /* Hide Filament UI elements */
+    .fi-topbar,
+    .fi-sidebar,
+    .fi-sidebar-nav,
+    .fi-topbar-nav,
+    .fi-main-content-header,
+    .fi-page-header,
+    .fi-page-header-heading,
+    nav,
+    header,
+    .fi-breadcrumbs,
+    .fi-header,
+    .fi-header-actions,
+    .fi-header-heading,
+    .fi-main-ctn > header,
+    .fi-main > header,
+    .fi-page > header {
+        display: none !important;
+    }
+
+    /* Hide any navigation or header elements */
+    [data-fi-topbar],
+    [data-fi-sidebar],
+    [data-fi-main-content-header] {
+        display: none !important;
+    }
+
+    /* Ensure the main content takes full width */
+    .fi-main,
+    .fi-main-content,
+    .fi-page,
+    .fi-page-content {
+        padding: 0 !important;
+        margin: 0 !important;
+        max-width: none !important;
+        width: 100% !important;
+    }
+
+    /* Reset any container padding/margins */
+    .fi-container {
+        padding: 0 !important;
+        margin: 0 !important;
+    }
+
+    .print\:break-inside-avoid {
+        break-inside: avoid;
+    }
+
+    .print\:text-black {
+        color: #000 !important;
+    }
+
+    .print\:border-black {
+        border-color: #000 !important;
+    }
+
+    /* Ensure proper spacing for receipt elements */
+    .receipt-header {
+        margin-bottom: 20px;
+        border-bottom: 2px solid #000;
+        padding-bottom: 15px;
+    }
+
+    .receipt-table {
+        margin: 20px 0;
+    }
+
+    .receipt-footer {
+        margin-top: 20px;
+        border-top: 1px solid #000;
+        padding-top: 15px;
+    }
+
+    /* Print page margins */
+    @page {
+        margin: 0.5in;
+        size: A4;
+    }
+
+    /* Ensure receipt container takes full width and has proper spacing */
+    .print\:max-w-none {
+        max-width: none !important;
+    }
+
+    .print\:shadow-none {
+        box-shadow: none !important;
+    }
+
+    .print\:p-0 {
+        padding: 0 !important;
+    }
+
+    /* Make sure the receipt content is positioned correctly */
+    body * {
+        visibility: hidden;
+    }
+
+    .fi-page-content,
+    .fi-page-content * {
+        visibility: visible;
+    }
+
+    .fi-page-content {
+        position: absolute;
+        left: 0;
+        top: 0;
+        width: 100%;
+    }
+}
+
+@theme {
+    --color-crow-black: #000000;
+    --color-crow-dark: #333333;
+    --color-crow-gray: #4b4b4b;
+    --color-crow-orange: #f29c1f;
+    --color-crow-yellow: #ffa500;
+    --color-crow-white: #ffffff;
+    --color-crow-lightgray: #d1d5db;
+}
+
+/* Apply to Filament Components */
+:root {
+    --primary: var(--color-crow-orange);
+    --secondary: var(--color-crow-gray);
+    --accent: var(--color-crow-yellow);
+    --background: var(--color-crow-black);
+    --foreground: var(--color-crow-white);
+}
+
+/* Custom Gym Display Styles */
+.bg-crow-orange {
+    background-color: var(--color-crow-orange);
+}
+
+.from-crow-orange {
+    --tw-gradient-from: var(--color-crow-orange)
+        var(--tw-gradient-from-position);
+    --tw-gradient-to: rgb(242 156 31 / 0) var(--tw-gradient-to-position);
+    --tw-gradient-stops: var(--tw-gradient-from), var(--tw-gradient-to);
+}
+
+.to-crow-yellow {
+    --tw-gradient-to: var(--color-crow-yellow) var(--tw-gradient-to-position);
+}
+
+.text-crow-orange {
+    color: var(--color-crow-orange);
+}
+
+/* Enhance the gym display container */
+.gym-name-container {
+    padding: 0.5rem 1rem;
+    background-color: rgba(255, 255, 255, 0.05);
+    border-radius: 0.5rem;
+    border: 1px solid rgba(229, 231, 235, 0.2);
+    backdrop-filter: blur(4px);
+    transition: all 0.2s ease-in-out;
+}
+
+.dark .gym-name-container {
+    background-color: rgba(31, 41, 55, 0.5);
+    border-color: rgba(55, 65, 81, 0.5);
+}
+
+.gym-name-container:hover {
+    background-color: rgba(255, 255, 255, 0.1);
+    border-color: rgba(229, 231, 235, 0.3);
+}
+
+.dark .gym-name-container:hover {
+    background-color: rgba(31, 41, 55, 0.7);
+    border-color: rgba(55, 65, 81, 0.7);
+}
+
+/* Buttons */
+.filament-button {
+    background-color: var(--primary);
+    color: var(--foreground);
+}
+
+.filament-button:hover {
+    background-color: var(--accent);
+}
+
+/* Sidebar */
+.filament-sidebar {
+    background-color: var(--background);
+    color: var(--foreground);
+}
+
+/* Headings & Text */
+.filament-header,
+.filament-page-heading {
+    color: var(--primary);
+}
