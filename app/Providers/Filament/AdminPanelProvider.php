@@ -42,7 +42,7 @@ class AdminPanelProvider extends PanelProvider
             ->brandLogoHeight('2.5rem')
             ->maxContentWidth(Width::Full)
             ->colors([
-                'primary' => Color::Amber,
+                'primary' => Color::hex('#8A3FCC'),
             ])
             ->discoverResources(in: app_path('Filament/Resources'), for: 'App\Filament\Resources')
             ->discoverPages(in: app_path('Filament/Pages'), for: 'App\Filament\Pages')
