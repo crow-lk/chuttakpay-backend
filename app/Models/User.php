@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use Illuminate\Support\Facades\Storage;
 use Laravel\Sanctum\HasApiTokens;
 use Spatie\Permission\Traits\HasRoles;
 
@@ -56,7 +57,11 @@ class User extends Authenticatable implements HasAvatar
 
     public function getFilamentAvatarUrl(): ?string
     {
-        return asset('images/logo.jpeg');
+        $logoPath = Setting::getValue('brand.logo_path');
+
+        return $logoPath
+            ? Storage::disk('public')->url($logoPath)
+            : asset('images/logo.jpeg');
     }
 
     public function shippingAddresses(): HasMany

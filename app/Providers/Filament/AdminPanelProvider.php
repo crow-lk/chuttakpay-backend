@@ -7,6 +7,7 @@ use App\Filament\Widgets\HotProductsTable;
 use App\Filament\Widgets\MonthlySalesChart;
 use App\Filament\Widgets\SiteVisitsChart;
 use App\Filament\Widgets\SiteVisitsCountWidget;
+use App\Models\Setting;
 use Filament\Http\Middleware\Authenticate;
 use Filament\Http\Middleware\AuthenticateSession;
 use Filament\Http\Middleware\DisableBladeIconComponents;
@@ -35,6 +36,7 @@ class AdminPanelProvider extends PanelProvider
             ->id('admin')
             ->path('admin')
             ->login()
+            ->brandName(fn (): string => Setting::getValue('brand.company_name') ?? config('app.name'))
             ->brandLogo(fn (): View => view('filament.brand.logo'))
             ->darkModeBrandLogo(fn (): View => view('filament.brand.logo'))
             ->brandLogoHeight('2.5rem')
