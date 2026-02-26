@@ -42,6 +42,10 @@ return new class extends Migration
                 }
             });
 
+        if (DB::getDriverName() === 'sqlite') {
+            return;
+        }
+
         Schema::table('product_variants', function (Blueprint $table) {
             $table->dropConstrainedForeignId('color_id');
         });
